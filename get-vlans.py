@@ -18,17 +18,14 @@ def get_vlans(device):
             </vlan>
         </show>
         '''
-
     vlan_tree = device.get(('subtree', vlan_filter))
     ns_map = {'vlan_mgr_cli':'http://www.cisco.com/nxos:1.0:vlan_mgr_cli'}
     vlan_rows = vlan_tree.data_ele.findall('.//vlan_mgr_cli:ROW_vlanbrief', ns_map)
     vlans = []
-
     for vlan_row in vlan_rows:
         vlan_id = vlan_row.find('vlan_mgr_cli:vlanshowbr-vlanid',ns_map)
         vlan_name = vlan_row.find('vlan_mgr_cli:vlanshowbr-vlanname',ns_map)
         vlans.append({'vlan_id' : int(vlan_id.text), 'vlan_name': vlan_name.text})
-
     return(vlans)
 
 def main():
